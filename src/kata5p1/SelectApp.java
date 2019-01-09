@@ -1,9 +1,11 @@
 package kata5p1;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 /**
  *
@@ -11,6 +13,12 @@ import java.sql.Statement;
  */
 
 public class SelectApp {
+    
+    private List<String> lista;
+
+    public SelectApp(List<String> lista) {
+        this.lista = lista;
+    }
     
     // Se conecta a la BD y se devuelve un objeto Connection
     private Connection connect() {
@@ -52,6 +60,19 @@ public class SelectApp {
             stmt.execute(sql);
             System.out.println("Tabla creada");
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public void insert(){
+        String sql = "INSERT INTO EMAIL(direccion) VALUES(?)";
+        try  (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)){
+             for (String string : lista) {
+                  pstmt.setString(1,string);
+                  pstmt.executeUpdate();
+             }
+        }catch (SQLException e){
             System.out.println(e.getMessage());
         }
     }

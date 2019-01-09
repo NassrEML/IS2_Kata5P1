@@ -1,5 +1,6 @@
 package kata5p1;
 
+import java.util.List;
 /**
  *
  * @author NassrEML
@@ -7,8 +8,11 @@ package kata5p1;
 public class Kata5P1 {
 
     public static void main(String[] args) {
-        SelectApp app = new SelectApp();
-        app.selectAllPeople();
+        MailListReader lector = new MailListReader();
+        String ruta = "email.txt";
+        List<String> lista = lector.read(ruta);
+        SelectApp app = new SelectApp(lista);
         app.createNewTableEmail();
+        app.insert();
     }
 }
