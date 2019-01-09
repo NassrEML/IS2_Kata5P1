@@ -11,6 +11,7 @@ import java.sql.Statement;
  */
 
 public class SelectApp {
+    
     // Se conecta a la BD y se devuelve un objeto Connection
     private Connection connect() {
     // SQLite connection string
@@ -23,7 +24,8 @@ public class SelectApp {
         }
         return conn;
     }
-    public void selectAll(){
+    
+    public void selectAllPeople(){
         String sql = "SELECT * FROM PEOPLE";
         try (Connection conn = this.connect();
             Statement stmt = conn.createStatement();
@@ -35,6 +37,20 @@ public class SelectApp {
                 rs.getString("Apellidos") + " => " +
                 rs.getString("Departamento"));
             }   
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public void createNewTableEmail() {
+        String sql = "CREATE TABLE IF NOT EXISTS EMAIL (\n"
+                + " id integer PRIMARY KEY AUTOINCREMENT,\n"
+                + " direccion text NOT NULL);";
+        try (Connection conn = this.connect()) {
+            Statement stmt = conn.createStatement();
+            // Se crea la nueva tabla
+            stmt.execute(sql);
+            System.out.println("Tabla creada");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
